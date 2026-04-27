@@ -35,4 +35,4 @@ SwiftType operates using an array of text strings and tracks the user's keystrok
 As the user types, the application compares the input against the active text array, dynamically assigning CSS classes for correct and incorrect characters. The signature smooth cursor calculates its X and Y coordinates based on the currently active character's offset, translating its position with a subtle CSS ease-out transition.
 
 ---
-**Hackathon Project:** Developed entirely within a 24-hour time constraint.
+
