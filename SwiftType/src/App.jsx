@@ -1,122 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react";
+import Header from "./components/Header";
+import Toolbar from "./components/Toolbar";
+import TypingArea from "./components/TypingArea";
+import ResultScreen from "./components/ResultScreen";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [mode, setMode] = useState("words");
+  const [time, setTime] = useState(30);
+  const [status, setStatus] = useState("waiting");
+  const [stats, setStats] = useState({ wpm: 0, accuracy: 0 });
+
+  function handleRestart() {
+    setStatus("waiting");
+    setStats({ wpm: 0, accuracy: 0 });
+  }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className="min-h-screen bg-bg text-muted font-mono flex flex-col items-center justify-center px-8">
+      <div className="w-full max-w-4xl flex flex-col gap-10">
 
-      <div className="ticks"></div>
+        <Header mode={mode} time={time} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        <Toolbar
+          mode={mode}
+          time={time}
+          onModeChange={setMode}
+          onTimeChange={setTime}
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <div className="text-center text-accent text-6xl font-bold leading-none">
+          {time === Infinity ? "∞" : time}
+        </div>
+
+        {status === "finished" ? (
+          <ResultScreen stats={stats} onRestart={handleRestart} />
+        ) : (
+          <TypingArea />
+        )}
+
+        <div className="flex items-center justify-center gap-2 text-sm text-muted">
+          <span>start typing to begin</span>
+          <span>·</span>
+          <kbd className="border border-muted rounded px-2 py-0 text-xs text-accent font-mono">tab</kbd>
+          <span>or</span>
+          <kbd className="border border-muted rounded px-2 py-0 text-xs text-accent font-mono">esc</kbd>
+          <span>to restart</span>
+        </div>
+
+      </div>
+    </div>
+  );
 }
-
-export default App
