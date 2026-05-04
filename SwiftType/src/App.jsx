@@ -3,17 +3,14 @@ import Header from "./components/Header";
 import Toolbar from "./components/Toolbar";
 import TypingArea from "./components/TypingArea";
 import ResultScreen from "./components/ResultScreen";
+import { useTypingEngine } from "./hooks/useTypingEngine";
+
 
 export default function App() {
   const [mode, setMode] = useState("words");
   const [time, setTime] = useState(30);
-  const [status, setStatus] = useState("waiting");
-  const [stats, setStats] = useState({ wpm: 0, accuracy: 0 });
 
-  function handleRestart() {
-    setStatus("waiting");
-    setStats({ wpm: 0, accuracy: 0 });
-  }
+  const { textArray, userInput, status, timer, stats, reset } = useTypingEngine(mode, time);
 
   return (
     <div className="min-h-screen bg-bg text-muted font-mono flex flex-col items-center justify-center px-8">
@@ -29,15 +26,16 @@ export default function App() {
         />
 
         <div className="text-center text-accent text-6xl font-bold leading-none">
-          {time === Infinity ? "∞" : time}
+          {time === Infinity ? "∞" : timer}
         </div>
 
         {status === "finished" ? (
-          <ResultScreen stats={stats} onRestart={handleRestart} />
+          <ResultScreen stats={stats} onRestart={reset} />
         ) : (
-          <TypingArea />
-        )}
+        <TypingArea textArray={textArray} userInput={userInput} status={status} />
 
+        )}
+        {status !== "finished" && (
         <div className="flex items-center justify-center gap-2 text-sm text-muted">
           <span>start typing to begin</span>
           <span>·</span>
@@ -46,6 +44,7 @@ export default function App() {
           <kbd className="border border-muted rounded px-2 py-0 text-xs text-accent font-mono">esc</kbd>
           <span>to restart</span>
         </div>
+        )}
 
       </div>
     </div>
