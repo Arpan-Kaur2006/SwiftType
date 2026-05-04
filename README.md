@@ -1,6 +1,6 @@
 # SwiftType
 
-A minimalist, developer-focused typing speed test application. Built entirely with pure React and standard CSS along with basic TailwindCSs, focusing on clean UI and precise state management.
+A minimalist, developer-focused typing speed test application. Built entirely with pure React and TailwindCSs, focusing on clean UI and precise state management.
 
 ## Features
 
@@ -12,7 +12,7 @@ A minimalist, developer-focused typing speed test application. Built entirely wi
 ## Tech Stack
 
 * **Frontend Framework:** React (bootstrapped with Vite for instant HMR)
-* **Styling:** Pure CSS (utilizing CSS variables for easy theming)/basic TailwindCss
+* **Styling:** TailwindCss
 * **Language:** Vanilla JavaScript
 
 ## Quick Start
